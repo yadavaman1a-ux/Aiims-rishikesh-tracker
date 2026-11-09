@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="Personal NEET 2027 study tracker for the AIIMS Rishikesh mission.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>AIIMS NEET 2027 Tracker</title>
+<style>
+:root{--bg:#080d18;--panel:#111a2b;--panel2:#172338;--line:#26344c;--txt:#eef4ff;--muted:#9aabc4;--green:#54d6a0;--blue:#73a9ff;--amber:#ffc66d;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#14213a 0%,var(--bg) 55%);color:var(--txt);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:22px max(16px,calc((100vw - 1100px)/2));border-bottom:1px solid var(--line);background:#0b1220eF;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#2b976e,#2458a5);display:grid;place-items:center;font-size:22px}.brand h1{font-size:17px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+nav{display:flex;gap:7px;overflow:auto;margin-top:16px;padding-bottom:2px}nav button{white-space:nowrap;background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 13px;border-radius:999px}nav button.active{background:#1b3d3a;border-color:#286d5a;color:#b9ffe0}
+main{max-width:1100px;margin:auto;padding:20px 16px 80px}.hero{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:22px;border:1px solid #285448;background:linear-gradient(120deg,#12362f,#14243c 70%);border-radius:20px;margin-bottom:16px}.hero h2{margin:0 0 5px;font-size:clamp(21px,4vw,30px)}.hero p{margin:0;color:#c3d6d5}.target{font-size:12px;color:#b9ffe0;border:1px solid #397b68;border-radius:99px;padding:8px 12px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:linear-gradient(160deg,var(--panel),#0e1727);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}.stat .label{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:26px;margin:5px 0}.stat small{color:var(--muted)}.section{margin-top:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.sectionhead h3{margin:0;font-size:17px}.muted{color:var(--muted)}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;gap:10px;align-items:center}
+input,select,textarea{width:100%;background:#0a1322;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--txt);font:inherit;min-width:0}textarea{min-height:78px;resize:vertical}label{display:block;color:var(--muted);font-size:12px;margin:8px 0 5px}
+button,.btn{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--txt);padding:10px 13px;border-radius:10px;font:inherit}button.primary{background:#1c765a;border-color:#319b77;color:white}button.danger{color:#ffaaaa;border-color:#693c48;background:#301b28}button.small{padding:7px 10px;font-size:12px}
+.progress{height:9px;background:#26344a;border-radius:20px;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:linear-gradient(90deg,#3bbf8a,#79d8b0);border-radius:20px}
+.task{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid #202d42}.task:last-child{border:0}.task input{width:18px;height:18px;margin-top:2px;accent-color:#54d6a0}.task.done .tasktext{text-decoration:line-through;color:#71839e}.tasktext{flex:1}.tag{font-size:11px;border-radius:99px;padding:3px 8px;background:#20314a;color:#bcd4f5}.subject{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}.subject strong{font-size:15px}.subject .muted{font-size:12px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}
+.panel{display:none}.panel.active{display:block}.hint{font-size:12px;color:var(--muted)}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#1d2d42;color:#b7c9e3;font-size:11px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.hero{align-items:flex-start;flex-direction:column}.formgrid{grid-template-columns:1fr}}
+@media(min-width:900px){main{padding-top:26px}.wide{grid-column:span 2}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">🎯</div><div><h1>AIIMS NEET 2027 Tracker</h1><p>Daily execution • honest progress • AIIMS Rishikesh mission</p></div></div>
+ <nav id="tabs">
+  <button class="active" data-tab="dashboard">Dashboard</button><button data-tab="daily">Daily To‑Do</button><button data-tab="subjects">PCB Tracker</button><button data-tab="backlog">Backlog</button><button data-tab="practice">MCQs & Tests</button><button data-tab="weekly">Weekly Review</button><button data-tab="data">Backup & Settings</button>
+ </nav>
+</header>
+<main>
+<section class="hero"><div><h2>Earn your white coat.</h2><p>Small, measurable actions every day. No fake progress.</p></div><div class="target">MISSION · AIIMS RISHIKESH</div></section>
+
+<section id="dashboard" class="panel active">
+ <div class="grid">
+  <div class="card stat"><div class="label">Today's completion</div><strong id="dashDone">0%</strong><small id="dashTasks">0 of 0 tasks</small></div>
+  <div class="card stat"><div class="label">Focused study today</div><strong id="dashHours">0 h</strong><small>Logged study time</small></div>
+  <div class="card stat"><div class="label">MCQs this week</div><strong id="dashMcq">0</strong><small>Across PCB</small></div>
+  <div class="card stat"><div class="label">Latest mock</div><strong id="dashMock">—</strong><small>Out of 720</small></div>
+ </div>
+ <div class="section grid">
+  <div class="card wide"><div class="sectionhead"><h3>Today's mission</h3><button class="small" onclick="switchTab('daily')">Open checklist →</button></div><div id="dashTaskList"></div></div>
+  <div class="card"><div class="sectionhead"><h3>Subject snapshot</h3></div><div id="dashSubjects"></div></div>
+ </div>
+ <div class="section card"><div class="between"><h3 style="margin:0">Quick log</h3><span class="pill">Auto-saves on this device</span></div>
+  <div class="formgrid"><div><label>Focused study hours today</label><input id="quickHours" type="number" min="0" max="24" step=".25" placeholder="e.g. 8.5"></div><div><label>Sleep last night (hours)</label><input id="quickSleep" type="number" min="0" max="24" step=".25" placeholder="e.g. 7.5"></div></div>
+  <label>Energy / main obstacle (optional)</label><input id="quickNote" placeholder="e.g. Energy good; phone distraction after lunch">
+  <button class="primary" style="margin-top:10px" onclick="saveQuickLog()">Save today's log</button>
+ </div>
+</section>
+
+<section id="daily" class="panel">
+ <div class="sectionhead"><div><h3>Daily To‑Do List</h3><div class="hint">Tasks reset only when you choose a new date; past dates remain saved.</div></div><input id="taskDate" type="date" style="max-width:165px" onchange="renderDaily()"></div>
+ <div class="card"><div class="between"><div><strong id="dailyProgress">0% complete</strong><div class="hint" id="dailyCount">0 of 0 completed</div></div><button class="small" onclick="loadTemplate()">Load suggested daily plan</button></div><div class="progress"><span id="dailyBar" style="width:0%"></span></div>
+ <div class="formgrid"><div><label>Task</label><input id="newTask" placeholder="e.g. Rotational motion DPP"></div><div><label>Subject</label><select id="newSubject"><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Revision</option><option>Test</option><option>Other</option></select></div></div>
+ <button class="primary" style="margin-top:10px" onclick="addTask()">+ Add task</button><div id="taskList" style="margin-top:10px"></div></div>
+</section>
+
+<section id="subjects" class="panel">
+ <div class="sectionhead"><div><h3>PCB Chapter Tracker</h3><div class="hint">Track chapter status and revision without guessing completion.</div></div></div>
+ <div class="card">
+  <div class="formgrid"><div><label>Chapter name</label><input id="chapterName" placeholder="e.g. Laws of Motion"></div><div><label>Subject</label><select id="chapterSubject"><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option></select></div></div>
+  <div class="formgrid"><div><label>Status</label><select id="chapterStatus"><option>Not started</option><option>Lectures ongoing</option><option>Concepts done</option><option>NCERT/notes revised</option><option>Questions practiced</option><option>Test completed</option><option>Mastered</option></select></div><div><label>Next revision date</label><input id="chapterRevision" type="date"></div></div>
+  <label>Notes / weak subtopics</label><input id="chapterNotes" placeholder="Optional">
+  <button class="primary" style="margin-top:10px" onclick="addChapter()">Add chapter</button>
+ </div>
+ <div class="section grid" id="subjectCards"></div>
+ <div class="section card"><div class="sectionhead"><h3>All chapters</h3><select id="chapterFilter" style="max-width:150px" onchange="renderChapters()"><option>All</option><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option></select></div><div id="chapterTable"></div></div>
+</section>
+
+<section id="backlog" class="panel">
+ <div class="sectionhead"><div><h3>Backlog Control</h3><div class="hint">Record remaining lectures. Keep current batch work separate from backlog.</div></div></div>
+ <div class="grid" id="backlogCards"></div>
+ <div class="section card"><h3 style="margin-top:0">Update backlog</h3><div class="formgrid"><div><label>Subject</label><select id="backSubject"><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Remaining lectures</label><input id="backCount" type="number" min="0" step="1" placeholder="e.g. 24"></div></div><label>Notes</label><input id="backNote" placeholder="Chapter names / priority"><button class="primary" style="margin-top:10px" onclick="updateBacklog()">Save backlog</button></div>
+ <div class="section card"><h3 style="margin-top:0">Backlog history</h3><div id="backHistory" class="hint">No updates yet.</div></div>
+</section>
+
+<section id="practice" class="panel">
+ <div class="sectionhead"><div><h3>MCQs & Mock Tests</h3><div class="hint">Accuracy = correct ÷ attempted. Review wrong and guessed answers.</div></div></div>
+ <div class="card"><h3 style="margin-top:0">Log MCQ practice</h3><div class="formgrid"><div><label>Subject</label><select id="mcqSubject"><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Attempted</label><input id="mcqAttempt" type="number" min="0"></div><div><label>Correct</label><input id="mcqCorrect" type="number" min="0"></div><div><label>Incorrect</label><input id="mcqWrong" type="number" min="0"></div></div><label>Topic / mistake pattern</label><input id="mcqNote" placeholder="e.g. Electrostatics; sign errors"><button class="primary" style="margin-top:10px" onclick="addMcq()">Save MCQ session</button></div>
+ <div class="section grid" id="mcqStats"></div>
+ <div class="section card"><h3 style="margin-top:0">Log mock test</h3><div class="formgrid"><div><label>Test name</label><input id="mockName" placeholder="e.g. Full syllabus test 01"></div><div><label>Date</label><input id="mockDate" type="date"></div><div><label>Score / 720</label><input id="mockScore" type="number" min="0" max="720"></div><div><label>Physics / 180</label><input id="mockPhy" type="number" min="0" max="180"></div><div><label>Chemistry / 180</label><input id="mockChem" type="number" min="0" max="180"></div><div><label>Biology / 360</label><input id="mockBio" type="number" min="0" max="360"></div></div><label>Error analysis / chapters to repair</label><textarea id="mockErrors" placeholder="Conceptual errors, NCERT facts, calculation mistakes, guessed answers..."></textarea><button class="primary" style="margin-top:10px" onclick="addMock()">Save mock result</button></div>
+ <div class="section card"><h3 style="margin-top:0">Mock history</h3><div id="mockHistory"></div></div>
+</section>
+
+<section id="weekly" class="panel">
+ <div class="sectionhead"><div><h3>Weekly Review</h3><div class="hint">A weekly snapshot built from your logged data.</div></div><button class="small" onclick="renderWeekly()">Refresh report</button></div>
+ <div id="weeklyReport" class="card"></div>
+ <div class="section card"><h3 style="margin-top:0">Save weekly reflection</h3><label>What improved?</label><textarea id="weekGood" placeholder="Be specific..."></textarea><label>What slipped / biggest obstacle?</label><textarea id="weekBad" placeholder="No judgement; record facts."></textarea><label>Top 3 priorities for next week</label><textarea id="weekNext" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea><button class="primary" style="margin-top:10px" onclick="saveWeekly()">Save weekly review</button><div id="weeklyHistory" class="section"></div></div>
+</section>
+
+<section id="data" class="panel">
+ <div class="sectionhead"><div><h3>Backup & Settings</h3><div class="hint">Your data is stored locally in this browser on this device.</div></div></div>
+ <div class="card"><h3 style="margin-top:0">Data backup</h3><p class="hint">Export a JSON backup regularly. Import it if you change browser or device. Clearing browser data can erase local records.</p><div class="row"><button class="primary" onclick="exportData()">Download backup</button><button onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)"></div></div>
+ <div class="section card"><h3 style="margin-top:0">Install on Android</h3><ol class="hint"><li>Upload/extract this website to an HTTPS host such as GitHub Pages.</li><li>Open the hosted site in Chrome on your tablet.</li><li>Tap Chrome menu (⋮) → Install app or Add to Home screen.</li><li>Open it from the new home-screen icon. After the first load, cached pages can work offline.</li></ol><p class="hint">Offline installation requires HTTPS hosting (or localhost). This downloaded project is not already published online.</p></div>
+ <div class="section card"><h3 style="margin-top:0">Reset</h3><p class="hint">This permanently clears this browser's tracker data.</p><button class="danger" onclick="resetData()">Reset all local data</button></div>
+</section>
+<footer>Built for your NEET 2027 journey · Stay consistent, review honestly, protect your sleep.</footer>
+</main>
+<script>
+const KEY='aiims_neet_tracker_v1';
+const today=()=>new Date().toLocaleDateString('en-CA');
+const blank=()=>({tasks:{},logs:{},chapters:[],backlog:{Physics:0,Chemistry:0,Biology:0},backHistory:[],mcqs:[],mocks:[],weekly:[]});
+let db=load();
+function load(){try{return {...blank(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return blank()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function switchTab(id){document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));if(id==='weekly')renderWeekly();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+const taskDate=document.getElementById('taskDate');taskDate.value=today();document.getElementById('mockDate').value=today();
+function tasksFor(d=taskDate.value){return db.tasks[d]||[]}
+function addTask(){let t=document.getElementById('newTask').value.trim();if(!t)return;let d=taskDate.value;db.tasks[d]=tasksFor(d);db.tasks[d].push({id:Date.now(),text:t,subject:document.getElementById('newSubject').value,done:false});document.getElementById('newTask').value='';save()}
+function toggleTask(id,checked){let a=tasksFor();let t=a.find(x=>x.id===id);if(t)t.done=checked;db.tasks[taskDate.value]=a;save()}
+function deleteTask(id){db.tasks[taskDate.value]=tasksFor().filter(x=>x.id!==id);save()}
+function loadTemplate(){let d=taskDate.value;if(tasksFor(d).length&&!confirm('This date already has tasks. Add the suggested tasks anyway?'))return;let items=[['Physics','Revise one current topic + solve 40 questions'],['Chemistry','Attend/complete current lecture and DPP'],['Chemistry','Complete one planned backlog lecture'],['Biology','NCERT active reading + 80 MCQs'],['Biology','Complete one planned backlog lecture'],['Revision','Revise yesterday’s topics (30–45 min)'],['Test','Analyse wrong, guessed and skipped questions'],['Other','Record focused hours, sleep and energy']];db.tasks[d]=tasksFor(d).concat(items.map((x,i)=>({id:Date.now()+i,text:x[1],subject:x[0],done:false})));save()}
+function renderDaily(){let a=tasksFor(),done=a.filter(x=>x.done).length,p=a.length?Math.round(done/a.length*100):0;document.getElementById('dailyProgress').textContent=p+'% complete';document.getElementById('dailyCount').textContent=done+' of '+a.length+' completed';document.getElementById('dailyBar').style.width=p+'%';document.getElementById('taskList').innerHTML=a.length?a.map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id},this.checked)"><div class="tasktext"><div>${esc(t.text)}</div><span class="tag">${esc(t.subject)}</span></div><button class="small danger" onclick="deleteTask(${t.id})">×</button></div>`).join(''):'<div class="empty">No tasks yet. Add your own or load the suggested plan.</div>'}
+function saveQuickLog(){let h=Number(document.getElementById('quickHours').value||0),s=Number(document.getElementById('quickSleep').value||0),n=document.getElementById('quickNote').value;db.logs[today()]={hours:h,sleep:s,note:n};save();alert("Today's log saved.")}
+function addChapter(){let name=document.getElementById('chapterName').value.trim();if(!name)return;db.chapters.push({id:Date.now(),name,subject:document.getElementById('chapterSubject').value,status:document.getElementById('chapterStatus').value,revision:document.getElementById('chapterRevision').value,notes:document.getElementById('chapterNotes').value});['chapterName','chapterNotes','chapterRevision'].forEach(id=>document.getElementById(id).value='');save()}
+function updateChapter(id,key,val){let c=db.chapters.find(x=>x.id===id);if(c){c[key]=val;save()}}
+function deleteChapter(id){db.chapters=db.chapters.filter(x=>x.id!==id);save()}
+function renderChapters(){let filter=document.getElementById('chapterFilter').value;let a=db.chapters.filter(c=>filter==='All'||c.subject===filter);document.getElementById('chapterCards').innerHTML=['Physics','Chemistry','Botany','Zoology'].map(s=>{let n=db.chapters.filter(c=>c.subject===s).length,done=db.chapters.filter(c=>c.subject===s&&c.status==='Mastered').length;return `<div class="card"><div class="subject"><strong>${s}</strong><span>${done}/${n} mastered</span></div><div class="progress"><span style="width:${n?done/n*100:0}%"></span></div><div class="hint">${n} chapters tracked</div></div>`}).join('');document.getElementById('chapterTable').innerHTML=a.length?`<table><thead><tr><th>Chapter</th><th>Subject</th><th>Status</th><th>Revision</th><th></th></tr></thead><tbody>${a.map(c=>`<tr><td><b>${esc(c.name)}</b><div class="hint">${esc(c.notes)}</div></td><td>${esc(c.subject)}</td><td><select onchange="updateChapter(${c.id},'status',this.value)">${['Not started','Lectures ongoing','Concepts done','NCERT/notes revised','Questions practiced','Test completed','Mastered'].map(s=>`<option ${c.status===s?'selected':''}>${s}</option>`).join('')}</select></td><td><input type="date" value="${c.revision||''}" onchange="updateChapter(${c.id},'revision',this.value)"></td><td><button class="small danger" onclick="deleteChapter(${c.id})">×</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">No chapters recorded. Add your first chapter above.</div>'}
+function updateBacklog(){let s=document.getElementById('backSubject').value,n=Number(document.getElementById('backCount').value);if(!Number.isFinite(n)||n<0)return alert('Enter a valid non-negative lecture count.');let prev=db.backlog[s];db.backlog[s]=n;db.backHistory.unshift({date:today(),subject:s,from:prev,to:n,note:document.getElementById('backNote').value});document.getElementById('backCount').value='';document.getElementById('backNote').value='';save()}
+function renderBacklog(){document.getElementById('backlogCards').innerHTML=['Physics','Chemistry','Biology'].map(s=>`<div class="card stat"><div class="label">${s} remaining lectures</div><strong>${db.backlog[s]??'—'}</strong><small>Latest recorded count</small></div>`).join('');document.getElementById('backHistory').innerHTML=db.backHistory.length?db.backHistory.slice(0,12).map(x=>`${esc(x.date)} · ${esc(x.subject)}: ${x.from} → <b>${x.to}</b> ${esc(x.note)}`).join('<br>'):'No updates yet.'}
+function addMcq(){let s=document.getElementById('mcqSubject').value,a=Number(document.getElementById('mcqAttempt').value),c=Number(document.getElementById('mcqCorrect').value),w=Number(document.getElementById('mcqWrong').value);if(a<0||c<0||w<0||c+w>a)return alert('Check values: correct + incorrect cannot exceed attempted.');db.mcqs.unshift({date:today(),subject:s,attempted:a,correct:c,wrong:w,note:document.getElementById('mcqNote').value});['mcqAttempt','mcqCorrect','mcqWrong','mcqNote'].forEach(id=>document.getElementById(id).value='');save()}
+function addMock(){let score=Number(document.getElementById('mockScore').value);if(score<0||score>720||!document.getElementById('mockDate').value)return alert('Enter a valid score and date.');db.mocks.unshift({name:document.getElementById('mockName').value||'Mock test',date:document.getElementById('mockDate').value,score,phy:document.getElementById('mockPhy').value,chem:document.getElementById('mockChem').value,bio:document.getElementById('mockBio').value,errors:document.getElementById('mockErrors').value});['mockName','mockScore','mockPhy','mockChem','mockBio','mockErrors'].forEach(id=>document.getElementById(id).value='');save()}
+function renderPractice(){let subjects=['Physics','Chemistry','Biology'];document.getElementById('mcqStats').innerHTML=subjects.map(s=>{let a=db.mcqs.filter(x=>x.subject===s),n=a.reduce((t,x)=>t+x.attempted,0),c=a.reduce((t,x)=>t+x.correct,0);return `<div class="card stat"><div class="label">${s} MCQs logged</div><strong>${n}</strong><small>${n?Math.round(c/n*100):0}% correct · ${c} correct</small></div>`}).join('');document.getElementById('mockHistory').innerHTML=db.mocks.length?`<table><thead><tr><th>Date</th><th>Test</th><th>Score</th><th>Subject split</th></tr></thead><tbody>${db.mocks.map(m=>`<tr><td>${esc(m.date)}</td><td>${esc(m.name)}<div class="hint">${esc(m.errors)}</div></td><td><b>${m.score}/720</b></td><td>${esc(m.phy||'—')} / ${esc(m.chem||'—')} / ${esc(m.bio||'—')}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No mock tests logged yet.</div>'}
+function renderWeekly(){let since=new Date();since.setDate(since.getDate()-6);let dates=Object.keys(db.logs).filter(d=>new Date(d+'T12:00:00')>=since),hours=dates.reduce((s,d)=>s+(Number(db.logs[d].hours)||0),0),avg=dates.length?hours/dates.length:0;let mc=db.mcqs.filter(x=>new Date(x.date+'T12:00:00')>=since),attempt=mc.reduce((s,x)=>s+x.attempted,0),correct=mc.reduce((s,x)=>s+x.correct,0),mocks=db.mocks.filter(x=>new Date(x.date+'T12:00:00')>=since);let tasks=Object.entries(db.tasks).filter(([d])=>new Date(d+'T12:00:00')>=since).flatMap(x=>x[1]),done=tasks.filter(t=>t.done).length;document.getElementById('weeklyReport').innerHTML=`<div class="grid"><div class="stat"><div class="label">Logged study days</div><strong>${dates.length}/7</strong></div><div class="stat"><div class="label">Avg hours / logged day</div><strong>${avg.toFixed(1)}</strong></div><div class="stat"><div class="label">MCQs attempted</div><strong>${attempt}</strong></div><div class="stat"><div class="label">MCQ accuracy</div><strong>${attempt?Math.round(correct/attempt*100):0}%</strong></div></div><div class="section"><b>Tasks completed:</b> ${done}/${tasks.length} · <b>Mocks logged:</b> ${mocks.length}</div><p class="hint">This report uses only data you entered in this browser. Missing logs are not treated as zero performance. Study-hour average uses logged days only.</p>${mocks.map(m=>`<p>• ${esc(m.date)} — ${esc(m.name)}: <b>${m.score}/720</b></p>`).join('')}`;
+document.getElementById('weeklyHistory').innerHTML=db.weekly.length?'<h4>Past reflections</h4>'+db.weekly.slice(0,8).map(w=>`<div class="task"><div><b>${esc(w.date)}</b><div class="hint">Improved: ${esc(w.good)}<br>Slipped: ${esc(w.bad)}<br>Next: ${esc(w.next)}</div></div></div>`).join(''):'<p class="hint">No saved reflections yet.</p>'}
+function saveWeekly(){db.weekly.unshift({date:today(),good:document.getElementById('weekGood').value,bad:document.getElementById('weekBad').value,next:document.getElementById('weekNext').value});['weekGood','weekBad','weekNext'].forEach(id=>document.getElementById(id).value='');save();alert('Weekly reflection saved.')}
+function renderDashboard(){let a=tasksFor(today()),done=a.filter(x=>x.done).length,p=a.length?Math.round(done/a.length*100):0,log=db.logs[today()]||{};document.getElementById('dashDone').textContent=p+'%';document.getElementById('dashTasks').textContent=`${done} of ${a.length} tasks`;document.getElementById('dashHours').textContent=(log.hours||0)+' h';let week=new Date();week.setDate(week.getDate()-6);document.getElementById('dashMcq').textContent=db.mcqs.filter(x=>new Date(x.date+'T12:00:00')>=week).reduce((s,x)=>s+x.attempted,0);document.getElementById('dashMock').textContent=db.mocks[0]?.score??'—';document.getElementById('dashTaskList').innerHTML=a.length?a.slice(0,6).map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleDashTask(${t.id},this.checked)"><div class="tasktext">${esc(t.text)} <span class="tag">${esc(t.subject)}</span></div></div>`).join(''):'<div class="empty">Add your daily tasks to see them here.</div>';document.getElementById('dashSubjects').innerHTML=['Physics','Chemistry','Botany','Zoology'].map(s=>`<div class="subject"><strong>${s}</strong><span>${db.chapters.filter(c=>c.subject===s&&c.status==='Mastered').length}/${db.chapters.filter(c=>c.subject===s).length}</span></div>`).join('<hr style="border:0;border-top:1px solid var(--line)">');document.getElementById('quickHours').value=log.hours??'';document.getElementById('quickSleep').value=log.sleep??'';document.getElementById('quickNote').value=log.note??''}
+function toggleDashTask(id,checked){let a=db.tasks[today()]||[],t=a.find(x=>x.id===id);if(t)t.done=checked;db.tasks[today()]=a;save()}
+function renderAll(){renderDashboard();renderDaily();renderChapters();renderBacklog();renderPractice();if(document.getElementById('weekly').classList.contains('active'))renderWeekly()}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='aiims-neet-tracker-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x||typeof x!=='object')throw 0;db={...blank(),...x};save();alert('Backup imported.')}catch(err){alert('Could not read this backup file.')}};r.readAsText(f);e.target.value=''}
+function resetData(){if(confirm('Delete ALL tracker data from this browser? Export a backup first if needed.')){db=blank();save()}}
+function renderAll(){renderDashboard();renderDaily();renderChapters();renderBacklog();renderPractice();if(document.getElementById('weekly').classList.contains('active'))renderWeekly()}
+renderAll();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
